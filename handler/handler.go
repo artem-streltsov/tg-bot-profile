@@ -46,7 +46,7 @@ func handleCommand(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		chatID := update.Message.Chat.ID
 		handleProfile(bot, userID, chatID, true)
 	default:
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Неизвестная команда.")
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Неизвестная команда.\nИспользуйте команду /profile.")
 		if _, err := bot.Send(msg); err != nil {
 			log.Printf("Error sending unknown command message: %v", err)
 		}
@@ -61,7 +61,7 @@ func handleStart(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 
 	existingUser, err := database.GetUser(userID)
 	if err == nil && existingUser != nil {
-		msg := tgbotapi.NewMessage(chatID, "Вы уже зарегистрированы.")
+		msg := tgbotapi.NewMessage(chatID, "Вы уже зарегистрированы.\nИспользуйте команду /profile.")
 		if _, err := bot.Send(msg); err != nil {
 			log.Printf("Error sending already registered message: %v", err)
 		}
@@ -80,7 +80,7 @@ func handleStart(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		log.Printf("Error saving user: %v", err)
 	}
 
-	msg := tgbotapi.NewMessage(chatID, "Добро пожаловать!")
+	msg := tgbotapi.NewMessage(chatID, "Добро пожаловать!\nИспользуйте команду /profile.")
 	if _, err := bot.Send(msg); err != nil {
 		log.Printf("Error sending welcome message: %v", err)
 	}
